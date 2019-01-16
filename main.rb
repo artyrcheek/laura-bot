@@ -39,7 +39,8 @@ end
 
 get '/whostracking' do
   content_type :json
-  return return_currently_tracked_entries()
+  # return return_currently_tracked_entries()
+  return { "text": "It's 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } ] }
 end
 
 post '/whostracking' do
@@ -49,7 +50,7 @@ post '/whostracking' do
   # puts "I got some JSON: #{push.inspect}"
   status 200
   response = { "text": "It's 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } ] }
-  body response
+  response
 end
 
 get '/' do
