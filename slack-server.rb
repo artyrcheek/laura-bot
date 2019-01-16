@@ -43,10 +43,11 @@ post "/whostracking" do
   status 200
   slack_data = request.POST.inspect
   puts "starting new thread"
-  Thread.new do
+  cb = Thread.new do
     puts "in thread"
     slack_callback(slack_data)
   end
+  cb.join
   return "one minute, gathering data"
 
 end
