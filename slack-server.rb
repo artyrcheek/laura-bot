@@ -33,6 +33,7 @@ def slack_callback(slack_data)
     num_cards = cards.length
     i+= 1
   end
+  get_json_url_with_params(slack_data['response_url'], { "text" => return_message})
   puts return_message
 end
 
