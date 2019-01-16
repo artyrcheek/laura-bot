@@ -40,7 +40,7 @@ end
 get '/whostracking' do
   content_type :json
   # return return_currently_tracked_entries()
-  return { "text": "It's 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } ] }
+  return "hello"
 end
 
 post '/whostracking' do
