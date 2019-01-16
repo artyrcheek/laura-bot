@@ -10,7 +10,7 @@ post '/whostracking' do
   # return return_currently_tracked_entries()
   # push = JSON.parse(request.body.read)
   # puts "I got some JSON: #{push.inspect}"
-  return '{ "response_type": "in_channel", "text": "Its 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } }'
+  return '{ "response_type": "in_channel", "text": "Its 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } }'.to_json
 end
 
 get '/whostracking' do
