@@ -43,7 +43,7 @@ end
 post "/whostracking" do
   content_type :json
   status 200
-  slack_data = request.POST.inspect
+  slack_data = request.POST
   puts "starting new thread"
   Thread.new do
     puts "in thread"
