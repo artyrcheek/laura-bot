@@ -8,8 +8,8 @@ post '/whostracking' do
   content_type :json
   status 200
   # return return_currently_tracked_entries()
-  push = JSON.parse(request.body.read)
-  puts "I got some JSON: #{push.inspect}"
+  # push = JSON.parse(request.body.read)
+  # puts "I got some JSON: #{push.inspect}"
   return "hello there"
 end
 
