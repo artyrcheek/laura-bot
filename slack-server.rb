@@ -35,7 +35,7 @@ def slack_callback(slack_data)
     i+= 1
   end
   return_message ||= "No one is tracking time!"
-  HTTParty.post(slack_data['response_url'], body: "{ 'text':'#{return_message}'}")
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel' 'text':'#{return_message}'}")
 end
 
 post "/whostracking" do
