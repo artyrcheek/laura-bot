@@ -37,6 +37,14 @@ def slack_callback(slack_data)
 end
 
 
+def startCallBack()
+  puts "starting cb"
+  Thread.start {
+    puts "in thread"
+    slack_callback(slack_data)
+  }
+end
+
 set :threaded, true
 
 post "/whostracking" do
@@ -44,12 +52,8 @@ post "/whostracking" do
   status 200
   slack_data = request.POST.inspect
   puts "starting new thread"
-  Thread.start {
-    puts "in thread"
-    slack_callback(slack_data)
-  }
+  startCallBack()
   return "one minute, gathering data"
-
 end
 
 get '/' do
