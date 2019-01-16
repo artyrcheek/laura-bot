@@ -34,6 +34,7 @@ def slack_callback(slack_data)
     i+= 1
   end
   get_json_url_with_params(slack_data['response_url'], { "text" => return_message})
+  puts slack_data['response_url']
   puts return_message
 end
 
