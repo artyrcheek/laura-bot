@@ -45,7 +45,7 @@ post "/whostracking" do
   Thread.new do
     slack_callback(slack_data)
   end
-  return "one minute, gathering data"
+  return "one minute, scanning breeze"
 end
 
 get '/' do
