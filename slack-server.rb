@@ -44,19 +44,10 @@ post "/whostracking" do
   status 200
   slack_data = request.POST.inspect
   puts "starting new thread"
-  # cb = Thread.new do
-  #   puts "in thread"
-  #   slack_callback(slack_data)
-  # end
-
-  child_pid = Process.fork do
-    # hard work is done here...
-      puts "in thread"
-      slack_callback(slack_data)
-    Process.exit
-  end
-
-  Process.detach child_pid # No zombie process
+  Thread.start {
+    puts "in thread"
+    slack_callback(slack_data)
+  }
   return "one minute, gathering data"
 
 end
