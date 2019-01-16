@@ -34,11 +34,7 @@ def slack_callback(slack_data)
     num_cards = cards.length
     i+= 1
   end
-  # get_json_url_with_params(, { "text" => return_message})
-
-
-  puts slack_data['response_url']
-  puts return_message
+  HTTParty.post(slack_data['response_url'], body: "{ 'text':'#{return_message}'}")
 end
 
 def test_callback(slack_data)
@@ -56,7 +52,7 @@ post "/whostracking" do
   puts "starting new thread"
   Thread.new do
     puts "in thread"
-    test_callback(slack_data)
+    slack_callback(slack_data)
   end
   return "one minute, gathering data"
 
