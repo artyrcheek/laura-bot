@@ -42,6 +42,7 @@ def slack_callback(slack_data)
 end
 
 def test_callback(slack_data)
+  sleep(20)
   HTTParty.post(slack_data['response_url'], body: '{ "text":"Partly cloudy today and tomorrow"}')
   puts slack_data['response_url']
 end
