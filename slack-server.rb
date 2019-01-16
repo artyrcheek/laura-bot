@@ -27,7 +27,7 @@ def slack_callback(slack_data)
       # puts "#{card['name']} in project: #{card['project']['name']}"
       card["time_entries"].each do  |entry|
         if entry["tracked"] == nil
-          return_message << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card[id]} \n"
+          return_message << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
         end
       end
     end
