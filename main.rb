@@ -49,8 +49,8 @@ post '/whostracking' do
   # push = JSON.parse(request.body.read)
   # puts "I got some JSON: #{push.inspect}"
   status 200
-  response = { "text": "It's 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } ] }
-  response
+  response = "{ "text": "It's 80 degrees right now.", "attachments": [ { "text":"Partly cloudy today and tomorrow" } ] }""
+  JSON.parse(response)
 end
 
 get '/' do
