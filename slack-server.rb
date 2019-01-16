@@ -57,7 +57,6 @@ post "/whostracking" do
     puts "in thread"
     test_callback(slack_data)
   end
-  test_callback(slack_data)
   return "one minute, gathering data"
 
 end
