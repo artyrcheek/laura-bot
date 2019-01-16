@@ -42,10 +42,11 @@ post "/whostracking" do
   content_type :json
   slack_data = request.POST.inspect
   puts "starting new thread"
-  Thread.new {
+  callback = Thread.new {
     puts "in thread"
-   slack_callback(slack_data)
+    slack_callback(slack_data)
   }
+  callback.start
   return "one minute, gathering data"
 
 end
