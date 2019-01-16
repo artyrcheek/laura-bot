@@ -8,7 +8,7 @@ require 'slack-ruby-client'
 # dronejson = open('https://api.breeze.pm/projects/109831/cards/').read
 # dronejson = JSON.parse dronejson
 # puts dronejson
-
+puts "starting"
 def get_json_url_with_params(url, params)
   uri = URI(url)
   uri.query = URI.encode_www_form(params)
