@@ -39,7 +39,7 @@ def slack_callback(slack_data)
 end
 
 def test_callback(slack_data)
-  get_json_url_with_params(slack_data['response_url'], { "text" => "hello there!"})
+  get_json_url_with_params(slack_data['response_url'], { :text => "hello there!"})
   puts slack_data['response_url']
 end
 
