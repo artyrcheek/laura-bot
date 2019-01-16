@@ -7,6 +7,7 @@ require 'sinatra'
 post '/whostracking' do
   content_type :json
   # return return_currently_tracked_entries()
+  puts "hjk"
   return "hello"
 end
 
