@@ -43,7 +43,7 @@ def slack_callback(slack_data)
     i+= 1
   end
   return_attatchments ||= "No one is tracking time!"
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text':'#{return_message}'}  { 'attachments': [#{ return_attatchments[0..-1] }] }")
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
 post "/whostracking" do
