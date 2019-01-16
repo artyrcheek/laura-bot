@@ -37,6 +37,7 @@ def slack_callback(slack_data)
 end
 
 
+set :threaded, true
 
 post "/whostracking" do
   content_type :json
