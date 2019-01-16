@@ -4,6 +4,13 @@ require 'slack-ruby-client'
 
 require 'sinatra'
 
+get '/whostracking' do
+  content_type :json
+  response = { "text" => "hello there!"}
+  status 200
+  response.to_json
+end
+
 post '/whostracking' do
   content_type :json
   response = { "text" => "hello there!"}
