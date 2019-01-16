@@ -33,7 +33,7 @@ def slack_callback(slack_data)
             'author_name': '#{entry['user_name']}',
             'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
             'title': '#{card['name']}',
-            'title_link': 'https://app.breeze.pm/cards/#{card['id']/}',
+            'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
             'text': '#{card['project']['name']}'
         },"
         end
