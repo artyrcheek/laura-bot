@@ -14,6 +14,7 @@ end
 
 
 def slack_callback(slack_data)
+  puts "callback triggered! :)"
   return_message = ""
   i = 1
   num_cards = 1
