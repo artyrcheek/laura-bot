@@ -42,8 +42,11 @@ get '/whostracking' do
   return return_currently_tracked_entries()
 end
 
-get '/whostracking' do
-  return "https://www.google.com/url?sa=i&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwixyPPLifPfAhUvyoUKHSQoDQ8QjRx6BAgBEAU&url=https%3A%2F%2Fwww.iconfinder.com%2Ficons%2F682665%2Ffavicon_google_logo_new_icon&psig=AOvVaw2HhMiUPwVaqZA49N-E1y3n&ust=1547754668419507"
+post '/whostracking' do
+  # push = JSON.parse(request.body.read)
+  # puts "I got some JSON: #{push.inspect}"
+  status 200
+  body ''
 end
 
 get '/' do
