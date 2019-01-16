@@ -52,7 +52,7 @@ post "/whostracking" do
   # status 200
   # slack_data = request.POST.inspect
   puts "starting new thread"
-  # startCallBack()
+  startCallBack()
   return "one minute, gathering data"
 end
 
