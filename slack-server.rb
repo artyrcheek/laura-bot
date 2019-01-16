@@ -48,7 +48,6 @@ post "/whostracking" do
     puts "in thread"
     slack_callback(slack_data)
   end
-  cb.join
   return "one minute, gathering data"
 
 end
