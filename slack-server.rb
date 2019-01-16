@@ -34,7 +34,9 @@ def slack_callback(slack_data)
     num_cards = cards.length
     i+= 1
   end
-  get_json_url_with_params(slack_data['response_url'], { "text" => return_message})
+  get_json_url_with_params(, { "text" => return_message})
+
+  HTTParty.post(slack_data['response_url'], body: { text: "hello" })
   puts slack_data['response_url']
   puts return_message
 end
