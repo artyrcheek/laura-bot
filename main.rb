@@ -43,6 +43,8 @@ get '/whostracking' do
 end
 
 post '/whostracking' do
+  content_type :json
+  
   # push = JSON.parse(request.body.read)
   # puts "I got some JSON: #{push.inspect}"
   status 200
