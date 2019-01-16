@@ -7,9 +7,9 @@ require 'sinatra'
 post '/whostracking' do
   content_type :json
   # return return_currently_tracked_entries()
-  # push = JSON.parse(request.body.read)
-  # puts "I got some JSON: #{push.inspect}"
-  return "hello"
+  push = JSON.parse(request.body.read)
+  puts "I got some JSON: #{push.inspect}"
+  return "hello there"
 end
 
 get '/whostracking' do
