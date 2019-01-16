@@ -16,7 +16,7 @@ end
 
 def slack_callback(slack_data)
   puts "callback triggered! :)"
-  return_message = ""
+  return_attatchments = ""
   i = 1
   num_cards = 1
   while num_cards > 0
@@ -27,15 +27,23 @@ def slack_callback(slack_data)
       # puts "#{card['name']} in project: #{card['project']['name']}"
       card["time_entries"].each do  |entry|
         if entry["tracked"] == nil
-          return_message << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
+          # return_attatchments << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
+          return_attatchments << "{
+            'color': '#36a64f',
+            'author_name': '#{entry['user_name']}',
+            'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
+            'title': '#{card['name']}',
+            'title_link': 'app.breeze.pm/cards/#{card['id']}',
+            'text': '#{card['project']['name']}'
+        },"
         end
       end
     end
     num_cards = cards.length
     i+= 1
   end
-  return_message ||= "No one is tracking time!"
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text':'#{return_message}'}")
+  return_attatchments ||= "No one is tracking time!"
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text':'#{return_message}'}  { 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
 post "/whostracking" do
