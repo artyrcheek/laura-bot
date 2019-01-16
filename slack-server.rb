@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 require 'slack-ruby-client'
 require 'sinatra'
+require 'httparty'
 
 def get_json_url_with_params(url, params)
   uri = URI(url)
