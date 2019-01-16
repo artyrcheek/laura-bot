@@ -34,30 +34,20 @@ def slack_callback(slack_data)
     num_cards = cards.length
     i+= 1
   end
+  return_message ||= "No one is tracking time!"
   HTTParty.post(slack_data['response_url'], body: "{ 'text':'#{return_message}'}")
 end
-
-def test_callback(slack_data)
-  sleep(20)
-  HTTParty.post(slack_data['response_url'], body: '{ "text":"Partly cloudy today and tomorrow"}')
-  puts slack_data['response_url']
-end
-
-
 
 post "/whostracking" do
   content_type :json
   status 200
   slack_data = request.POST
-  puts "starting new thread"
   Thread.new do
-    puts "in thread"
     slack_callback(slack_data)
   end
   return "one minute, gathering data"
-
 end
 
 get '/' do
-  return "yeet"
+  return "I AM LAURABOT!!!!"
 end
