@@ -40,8 +40,11 @@ end
 post "/whostracking" do
   content_type :json
   slack_data = request.POST.inspect
-  slack_callback(slack_data)
+  Thread.new {
+   slack_callback(slack_data)
+  }
   return "one minute, gathering data"
+
 end
 
 get '/' do
