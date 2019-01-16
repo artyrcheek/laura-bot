@@ -38,6 +38,11 @@ def slack_callback(slack_data)
   puts return_message
 end
 
+def test_callback(slack_data)
+  get_json_url_with_params(slack_data['response_url'], { "text" => return_message})
+  puts slack_data['response_url']
+end
+
 
 
 post "/whostracking" do
@@ -47,7 +52,7 @@ post "/whostracking" do
   puts "starting new thread"
   Thread.new do
     puts "in thread"
-    slack_callback(slack_data)
+    test_callback(slack_data)
   end
   return "one minute, gathering data"
 
