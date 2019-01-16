@@ -42,7 +42,7 @@ def slack_callback(slack_data)
 end
 
 def test_callback(slack_data)
-  HTTParty.post(slack_data['response_url']., body: { text: "hello" })
+  HTTParty.post(slack_data['response_url'], body: { text: "hello" })
   puts slack_data['response_url']
 end
 
