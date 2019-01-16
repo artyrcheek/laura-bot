@@ -15,7 +15,7 @@ end
 
 def slack_callback(slack_data)
   puts "callback triggered! :)"
-  return_message = ""
+  return_message = "hello!"
   i = 1
   num_cards = 1
   while num_cards > 0
