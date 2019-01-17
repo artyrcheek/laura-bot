@@ -91,7 +91,7 @@ def slack_yesterdays_report_callback(slack_data)
     return_attatchments << "
     {
       'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
-      'title': '#{position}) #{user}',
+      'title': '#{user}',
       'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
     },"
     position += 1
