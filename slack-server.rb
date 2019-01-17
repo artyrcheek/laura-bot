@@ -89,11 +89,12 @@ def slack_yesterdays_report_callback(slack_data)
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
-      'color': '#{ if time_tracked <= 480 do color_gradient[time_tracked]} else color_gradient[480]} end',
+      'color': '#{ if time_tracked <= 480 then color_gradient[time_tracked] else color_gradient[480] end}',
       'title': '#{user}',
       'text': '#{time_tracked} Minutes'
     },"
   end
+
 
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
 
