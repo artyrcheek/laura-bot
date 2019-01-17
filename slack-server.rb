@@ -86,13 +86,15 @@ def slack_yesterdays_report_callback(slack_data)
 
   return_attatchments = ""
   userMap = userMap.sort_by{ |k, v| v }.reverse
+  position = 1
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
       'color': '#{ if time_tracked <= 160 then "danger" elsif time_tracked <= 320 then "warning" else "good" end}',
-      'title': '#{user}',
+      'title': '#{position}) #{user}',
       'text': '#{time_tracked} Minutes'
     },"
+    position++
   end
 
 
