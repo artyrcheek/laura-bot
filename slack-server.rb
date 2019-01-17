@@ -102,13 +102,13 @@ post "/yesterdaysreport" do
   content_type :json
   status 200
   slack_data = request.POST
-  return "im gonna show you yesterday sreport"
+  response = ""
+  userMap.each do |user_name, minutes_tracked|
+    response << "#{user_name} did #{minutes_tracked}"
+  end
+  return "response
 end
 
-
-# userMap.each do |user_name, minutes_tracked|
-#   puts "#{user_name} did #{minutes_tracked}"
-# end
 
 get '/' do
   return "I AM LAURABOT!!!!"
