@@ -95,7 +95,7 @@ def slack_yesterdays_report_callback(slack_data)
       'title': '#{user}',
       'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
     },"
-    total_minutes_tracked + = time_tracked
+    total_minutes_tracked += time_tracked
     position += 1
   end
 
