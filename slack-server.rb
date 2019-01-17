@@ -81,6 +81,9 @@ def slack_yesterdays_report_callback(slack_data)
       userMap[user_name] += minutes_tracked
     end
   end
+
+  HTTParty.post(slack_data['response_url'], body: "{'text': 'hello im done'}")
+
 end
 
 
