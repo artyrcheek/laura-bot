@@ -92,7 +92,7 @@ post "/yesterdaysreport" do
   Thread.new do
     slack_yesterdays_report_callback(slack_data)
   end
-  return "response
+  return "Getting Report data"
 end
 
 
