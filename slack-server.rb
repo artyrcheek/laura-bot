@@ -3,7 +3,7 @@ require 'json'
 require 'slack-ruby-client'
 require 'sinatra'
 require 'httparty'
-
+load './gradient.rb'
 def get_json_url_with_params(url, params)
   uri = URI(url)
   uri.query = URI.encode_www_form(params)
@@ -29,7 +29,7 @@ def slack_whos_tracking_callback(slack_data)
         if entry["tracked"] == nil
           # return_attatchments << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
           return_attatchments << "{
-            'color': '#36a64f',
+            'color': 'good',
             'author_name': '#{entry['user_name']}',
             'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
             'title': '#{card['name']}',
@@ -43,7 +43,7 @@ def slack_whos_tracking_callback(slack_data)
     i+= 1
   end
   return_attatchments ||= "{
-    'color': '#f40057',
+    'color': 'warning',
     'title': 'No one is tracking time!',
   },"
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
@@ -85,11 +85,11 @@ def slack_yesterdays_report_callback(slack_data)
   end
 
   return_attatchments = ""
-
+  color_gradient = Gradient.new("#2ea44e", "#d50201", 480).output
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
-      'color': '#36a64f',
+      'color': '#{ if time_tracked <= 480 do color_gradient[time_tracked]} else color_gradient[480]} end',
       'title': '#{user}',
       'text': '#{time_tracked} Minutes'
     },"
