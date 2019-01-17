@@ -85,7 +85,7 @@ def slack_yesterdays_report_callback(slack_data)
   end
 
   return_attatchments = ""
-  userMap.sort
+  userMap = userMap.sort_by{ |k, v| v }.reverse
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
