@@ -85,11 +85,10 @@ def slack_yesterdays_report_callback(slack_data)
   end
 
   return_attatchments = ""
-  color_gradient = Gradient.new("#d50201", "#2ea44e" , 480).output
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
-      'color': '#{ if time_tracked <= 480 then color_gradient[time_tracked] else color_gradient[480] end}',
+      'color': '#{ if time_tracked <= 120 then "danger" else "good" end}',
       'title': '#{user}',
       'text': '#{time_tracked} Minutes'
     },"
