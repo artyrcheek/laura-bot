@@ -96,7 +96,9 @@ def slack_callback(slack_data)
     num_cards = cards.length
     i+= 1
   end
-  return_attatchments ||= "No one is tracking time!"
+  if return_attatchments == ""
+    return_attatchments = "{ 'color': 'warning', 'title': 'No one is tracking time!' },"
+  end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
