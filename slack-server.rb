@@ -84,10 +84,10 @@ def slack_yesterdays_report_callback(slack_data)
     end
   end
 
-  attatchment_string = ""
+  return_attatchments = ""
 
   userMap.each do |user, time_tracked|
-    attatchment_string << "
+    return_attatchments << "
     {
       'color': '#36a64f',
       'title': '#{user}',
@@ -96,7 +96,7 @@ def slack_yesterdays_report_callback(slack_data)
   end
 
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
-  
+
 
 end
 
