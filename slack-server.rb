@@ -36,8 +36,10 @@ def slack_whos_tracking_callback(slack_data)
     cards.each do |card|
       # puts "card with id: #{card['id']} and name: #{card['name']}"
       # puts "#{card['name']} in project: #{card['project']['name']}"
+      HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '3 card' }")
       card["time_entries"].each do  |entry|
         if entry["tracked"] == nil
+          HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '4 entry' }")
           # return_attatchments << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
           return_attatchments << "{
             'color': 'good',
