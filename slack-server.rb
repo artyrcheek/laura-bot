@@ -17,15 +17,15 @@ end
 def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
   return_attatchments = ""
-  i = 1
+  page_number = 5
   people_tracking = 0
   num_cards = 1
   while num_cards > 0
-    puts "checking page #{i}"
+    puts "checking page #{page_number}"
     # cards =  get_json_url_with_params('https://api.breeze.pm/v2/cards/', { :api_token => 'B7ULqZ4WueSY-uv-yCZq', :page => i})
     cards = HTTParty.get(
       "https://api.breeze.pm/v2/cards/",
-      body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => i }
+      body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
     )
     cards.select! do |card|
       card['stage']['name'].exclude? 'Done'
@@ -50,16 +50,15 @@ def slack_whos_tracking_callback(slack_data)
     end
     num_cards = cards.length
     HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning page #{i} with #{people_tracking} people tracking' }")
-    i+= 1
+    page_number += 1
   end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
   if return_attatchments == ""
     return_attatchments = "
-    {
-      'color': 'warning',
-      'title': 'No one is tracking time!',
-    },
-    "
+      {
+        'color': 'warning',
+        'title': 'No one is tracking time!',
+      },"
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
   # HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'yep im triggered!' }")
 end
@@ -93,11 +92,11 @@ def slack_yesterdays_report_callback(slack_data)
   total_minutes_tracked = 0
   userMap.each do |user, time_tracked|
     return_attatchments << "
-    {
-      'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
-      'title': '#{user}',
-      'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
-    },"
+      {
+        'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
+        'title': '#{user}',
+        'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
+      },"
     total_minutes_tracked += time_tracked
     position += 1
   end
@@ -108,8 +107,7 @@ end
       'response_type':'in_channel',
       'text': '*Time Tracking Report For Yesterday* \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
-    }
-  "
+    }"
   HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
 end
 
