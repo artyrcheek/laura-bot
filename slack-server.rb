@@ -62,25 +62,27 @@ end
 # Yesterdays report
 
 def slack_yesterdays_report_callback(slack_data)
-  # usersResponse = HTTParty.get(
-  #   "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
-  # )
-  # reports_response = HTTParty.post(
-  #   "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
-  #   body: {"report_type" => "timetracking", "start_date" => "yesterday" }
-  # )
-  #
-  # reports_response.each do |report|
-  #   user_id = report['user_id']
-  #   user_name = usersResponse.find do |user| user['id'] == id end['name']
-  #   minutes_tracked = report['tracked']
-  #   if !userMap.has_key? user_name
-  #     userMap[user_name] = minutes_tracked
-  #   elsif
-  #     userMap.has_key? user_name
-  #     userMap[user_name] += minutes_tracked
-  #   end
-  # end
+  userMap = {}
+  
+  usersResponse = HTTParty.get(
+    "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
+  )
+  reports_response = HTTParty.post(
+    "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
+    body: {"report_type" => "timetracking", "start_date" => "yesterday" }
+  )
+
+  reports_response.each do |report|
+    user_id = report['user_id']
+    user_name = usersResponse.find do |user| user['id'] == user_id end['name']
+    minutes_tracked = report['tracked']
+    if !userMap.has_key? user_name
+      userMap[user_name] = minutes_tracked
+    elsif
+      userMap.has_key? user_name
+      userMap[user_name] += minutes_tracked
+    end
+  end
 
   # HTTParty.post(slack_data['response_url'], body: {"text" => "hello there !"})
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [{'color': '#f40057','title': 'No one is tracking time!'}] }")
