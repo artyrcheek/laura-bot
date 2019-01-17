@@ -16,6 +16,7 @@ end
 
 def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'triggered' }")
   return_attatchments = ""
   page_number = 1
   people_tracking = 0
