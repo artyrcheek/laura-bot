@@ -88,7 +88,7 @@ def slack_yesterdays_report_callback(slack_data)
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
-      'color': '#{ if time_tracked <= 120 then "danger" elsif time_tracked <= 240 then "warning" else "good" end}',
+      'color': '#{ if time_tracked <= 160 then "danger" elsif time_tracked <= 320 then "warning" else "good" end}',
       'title': '#{user}',
       'text': '#{time_tracked} Minutes'
     },"
