@@ -17,7 +17,7 @@ end
 def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
   return_attatchments = ""
-  page_number = 5
+  page_number = 2
   people_tracking = 0
   num_cards = 1
   while num_cards > 0
