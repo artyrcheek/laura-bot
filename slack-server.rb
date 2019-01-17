@@ -59,6 +59,7 @@ def slack_whos_tracking_callback(slack_data)
         'color': 'warning',
         'title': 'No one is tracking time!',
       },"
+    end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
   # HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'yep im triggered!' }")
 end
