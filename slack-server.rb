@@ -16,33 +16,26 @@ end
 
 def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'triggered' }")
   return_attatchments = ""
   page_number = 1
   people_tracking = 0
   num_cards = 1
   while num_cards > 0
     puts "checking page #{page_number}"
-    cards =  get_json_url_with_params('https://api.breeze.pm/v2/cards/', { :api_token => 'B7ULqZ4WueSY-uv-yCZq', :page => page_number})
-    # cards = HTTParty.get(
-    #   "https://api.breeze.pm/v2/cards/",
-    #   body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
-    # )
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'cards: #{cards.to_s}' }")
-
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '1' }")
+    # cards =  get_json_url_with_params('https://api.breeze.pm/v2/cards/', { :api_token => 'B7ULqZ4WueSY-uv-yCZq', :page => i})
+    cards = HTTParty.get(
+      "https://api.breeze.pm/v2/cards/",
+      body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
+    )
     cards.select! do |card|
       card['stage']['name'].exclude? 'Done'
     end
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '2' }")
     cards.each do |card|
-      # puts "card with id: #{card['id']} and name: #{card['name']}"
-      # puts "#{card['name']} in project: #{card['project']['name']}"
-      HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '3 card' }")
+      puts "card with id: #{card['id']} and name: #{card['name']}"
+      puts "#{card['name']} in project: #{card['project']['name']}"
       card["time_entries"].each do  |entry|
         if entry["tracked"] == nil
-          HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '4 entry' }")
-          # return_attatchments << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
+          return_attatchments << "#{entry['user_name']} - #{card['name']} app.breeze.pm/cards/#{card['id']} \n"
           return_attatchments << "{
             'color': 'good',
             'author_name': '#{entry['user_name']}',
@@ -66,9 +59,8 @@ def slack_whos_tracking_callback(slack_data)
         'color': 'warning',
         'title': 'No one is tracking time!',
       },"
-  end
+    end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
-  # HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'yep im triggered!' }")
 end
 
 def slack_yesterdays_report_callback(slack_data)
