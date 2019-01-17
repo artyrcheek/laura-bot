@@ -62,8 +62,6 @@ end
 # Yesterdays report
 
 def slack_yesterdays_report_callback(slack_data)
-  userMap = {}
-  
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
@@ -71,6 +69,8 @@ def slack_yesterdays_report_callback(slack_data)
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
     body: {"report_type" => "timetracking", "start_date" => "yesterday" }
   )
+
+  userMap = {}
 
   reports_response.each do |report|
     user_id = report['user_id']
@@ -84,8 +84,19 @@ def slack_yesterdays_report_callback(slack_data)
     end
   end
 
-  # HTTParty.post(slack_data['response_url'], body: {"text" => "hello there !"})
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [{'color': '#f40057','title': 'No one is tracking time!'}] }")
+  attatchment_string = ""
+
+  userMap.each do |user, time_tracked|
+    attatchment_string << "
+    {
+      'color': '#36a64f',
+      'title': '#{user}',
+      'text': '#{time_tracked} Minutes'
+    },"
+  end
+
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
+  
 
 end
 
