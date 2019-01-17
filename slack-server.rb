@@ -87,6 +87,7 @@ def slack_yesterdays_report_callback(slack_data)
   return_attatchments = ""
   userMap = userMap.sort_by{ |k, v| v }.reverse
   position = 1
+  total_minutes_tracked = 0
   userMap.each do |user, time_tracked|
     return_attatchments << "
     {
@@ -94,11 +95,12 @@ def slack_yesterdays_report_callback(slack_data)
       'title': '#{user}',
       'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
     },"
+    total_minutes_tracked + = time_tracked
     position += 1
   end
 
 
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel','text': '*Time tracking report for yesterday*\nTotal time tracked: #{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes' ,'attachments': [#{ return_attatchments[0..-1] }] }")
 
 
 end
