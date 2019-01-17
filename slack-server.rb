@@ -22,7 +22,6 @@ def slack_whos_tracking_callback(slack_data)
   while num_cards > 0
     puts "checking page #{i}"
     cards =  get_json_url_with_params('https://api.breeze.pm/v2/cards/', { :api_token => 'B7ULqZ4WueSY-uv-yCZq', :page => i})
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '#{cards}!' }")
     cards.each do |card|
       # puts "card with id: #{card['id']} and name: #{card['name']}"
       # puts "#{card['name']} in project: #{card['project']['name']}"
