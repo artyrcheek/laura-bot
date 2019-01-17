@@ -82,7 +82,7 @@ def slack_yesterdays_report_callback(slack_data)
     end
   end
 
-  HTTParty.post(slack_data['response_url'], body: "{'text': 'hello im done'}")
+  HTTParty.post(slack_data['response_url'], body: {"text" => "hello there !"})
 
 end
 
