@@ -28,9 +28,11 @@ def slack_whos_tracking_callback(slack_data)
     #   "https://api.breeze.pm/v2/cards/",
     #   body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
     # )
+    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '1' }")
     cards.select! do |card|
       card['stage']['name'].exclude? 'Done'
     end
+    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '2' }")
     cards.each do |card|
       # puts "card with id: #{card['id']} and name: #{card['name']}"
       # puts "#{card['name']} in project: #{card['project']['name']}"
