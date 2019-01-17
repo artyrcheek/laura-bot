@@ -18,6 +18,7 @@ def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
   return_attatchments = ""
   i = 1
+  people_tracking = 0
   num_cards = 1
   while num_cards > 0
     puts "checking page #{i}"
@@ -36,12 +37,15 @@ def slack_whos_tracking_callback(slack_data)
             'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
             'text': '#{card['project']['name']}'
           },"
+          people_tracking += 1
         end
       end
     end
     num_cards = cards.length
     i+= 1
+    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'on page #{i}' }")
   end
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
   return_attatchments ||= "{
     'color': 'warning',
     'title': 'No one is tracking time!',
