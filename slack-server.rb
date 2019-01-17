@@ -54,10 +54,12 @@ def slack_whos_tracking_callback(slack_data)
   end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
   if return_attatchments == ""
-    return_attatchments = "{
+    return_attatchments = "
+    {
       'color': 'warning',
       'title': 'No one is tracking time!',
-    },"
+    },
+    "
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
   # HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'yep im triggered!' }")
 end
@@ -99,16 +101,16 @@ def slack_yesterdays_report_callback(slack_data)
     total_minutes_tracked += time_tracked
     position += 1
   end
+end
 
-
-  HTTParty.post(slack_data['response_url'], body: "
+  time_tracking_report_body = "
     {
       'response_type':'in_channel',
       'text': '*Time Tracking Report For Yesterday* \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }
-    "
-  )
+  "
+  HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
 end
 
 post "/whostracking" do
@@ -129,8 +131,4 @@ post "/yesterdaysreport" do
     slack_yesterdays_report_callback(slack_data)
   end
   return "Getting Report data"
-end
-
-get '/' do
-  return "I AM LAURABOT!!!!"
 end
