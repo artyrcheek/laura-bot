@@ -1,8 +1,8 @@
-# require 'net/http'
-# require 'json'
-# require 'slack-ruby-client'
-# require 'httparty'
-# load './gradient.rb'
+require 'net/http'
+require 'json'
+require 'slack-ruby-client'
+require 'httparty'
+load './gradient.rb'
 #
 # puts "callback triggered! :)"
 # return_attatchments = ""
@@ -80,10 +80,10 @@ while num_cards > 0
     end
   end
   num_cards = cards.length
-  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning page #{i} with #{people_tracking} people tracking' }")
+  # HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning page #{i} with #{people_tracking} people tracking' }")
   page_number += 1
 end
-HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
+# HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
 if return_attatchments == ""
   return_attatchments = "
     {
@@ -91,4 +91,4 @@ if return_attatchments == ""
       'title': 'No one is tracking time!',
     },"
   end
-HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
+# HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
