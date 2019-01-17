@@ -152,7 +152,7 @@ post "/whostracking" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_whos_tracking_callback(slack_data)
+    slack_callback(slack_data)
   end
   return "one minute, scanning breeze"
 end
