@@ -42,8 +42,8 @@ def slack_whos_tracking_callback(slack_data)
       end
     end
     num_cards = cards.length
-    i+= 1
     HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'on page #{i}' }")
+    i+= 1
   end
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'finished scanning with #{people_tracking} people tracking' }")
   return_attatchments ||= "{
