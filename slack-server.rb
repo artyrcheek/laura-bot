@@ -101,7 +101,6 @@ def slack_yesterdays_report_callback(slack_data)
     total_minutes_tracked += time_tracked
     position += 1
   end
-end
 
   time_tracking_report_body = "
     {
