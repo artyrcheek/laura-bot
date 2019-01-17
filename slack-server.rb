@@ -35,14 +35,17 @@ def slack_callback(slack_data)
             'title': '#{card['name']}',
             'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
             'text': '#{card['project']['name']}'
-        },"
+          },"
         end
       end
     end
     num_cards = cards.length
     i+= 1
   end
-  return_attatchments ||= "No one is tracking time!"
+  return_attatchments ||= "{
+    'color': '#f40057',
+    'title': 'No one is tracking time!',
+  },"
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
