@@ -91,7 +91,6 @@ post "/yesterdaysreport" do
   content_type :json
   status 200
   slack_data = request.POST
-  response = ""
   Thread.new do
     slack_yesterdays_report_callback(slack_data)
   end
