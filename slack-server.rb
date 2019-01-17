@@ -82,7 +82,8 @@ def slack_yesterdays_report_callback(slack_data)
     end
   end
 
-  HTTParty.post(slack_data['response_url'], body: {"text" => "hello there !"})
+  # HTTParty.post(slack_data['response_url'], body: {"text" => "hello there !"})
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'attachments': [{'color': '#f40057','title': 'No one is tracking time!'}] }")
 
 end
 
