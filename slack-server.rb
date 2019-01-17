@@ -28,7 +28,7 @@ def slack_whos_tracking_callback(slack_data)
     #   "https://api.breeze.pm/v2/cards/",
     #   body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
     # )
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '#{cards}' }")
+    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'cards: #{cards}' }")
 
     HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '1' }")
     cards.select! do |card|
