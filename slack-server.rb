@@ -61,7 +61,7 @@ end
 
 # Yesterdays report
 
-def slack_yesterdays_report_callback()
+def slack_yesterdays_report_callback(slack_data)
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
@@ -89,8 +89,8 @@ post "/yesterdaysreport" do
   status 200
   slack_data = request.POST
   response = ""
-  userMap.each do |user_name, minutes_tracked|
-    response << "#{user_name} did #{minutes_tracked}"
+  Thread.new do
+    slack_yesterdays_report_callback(slack_data)
   end
   return "response
 end
