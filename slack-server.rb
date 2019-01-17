@@ -23,11 +23,14 @@ def slack_whos_tracking_callback(slack_data)
   while num_cards > 0
     puts "checking page #{page_number}"
     # cards =  get_json_url_with_params('https://api.breeze.pm/v2/cards/', { :api_token => 'B7ULqZ4WueSY-uv-yCZq', :page => i})
-    cards = HTTParty.get(
-      "https://api.breeze.pm/v2/cards/",
-      body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
-    )
-    HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '#{cards}'")
+    begin
+      cards = HTTParty.get(
+        "https://api.breeze.pm/v2/cards/",
+        body: {"api_token" => "B7ULqZ4WueSY-uv-yCZq", "page" => page_number }
+      )
+    rescue
+      HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': 'something went wrong'")
+    end
     cards.select! do |card|
       card['stage']['name'].exclude? 'Done'
     end
