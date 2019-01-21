@@ -53,7 +53,7 @@ def slack_yesterdays_report_callback(slack_data)
   )
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
-    body: {"report_type" => "timetracking", "start_date" => "yesterday" }
+    body: {"report_type" => "timetracking", "start_date" => slack_data['text'] }
   )
 
   userMap = {}
@@ -104,19 +104,12 @@ post "/whostracking" do
   return "one minute, scanning breeze"
 end
 
-post "/yesterdaysreport" do
-  content_type :json
-  status 200
-  slack_data = request.POST
-  Thread.new do
-    slack_yesterdays_report_callback(slack_data)
-  end
-  return "Getting Report data"
-end
-
 post "/report" do
   content_type :json
   status 200
   slack_data = request.POST
-  return "Getting Report data, #{slack_data['text']}, #{slack_data['user_name']}, <@#{slack_data['user_id']}>"
+  Thread.new doß
+    slack_yesterdays_report_callback(slack_data)
+  end
+  return "Getting Report data"
 end
