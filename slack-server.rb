@@ -65,11 +65,13 @@ def slack_yesterdays_report_callback(slack_data)
     user_id = report['user_id']
     user_name = usersResponse.find do |user| user['id'] == user_id end['name']
     minutes_tracked = report['tracked']
-    if !userMap.has_key? user_name
-      userMap[user_name] = minutes_tracked
-    elsif
-      userMap.has_key? user_name
-      userMap[user_name] += minutes_tracked
+    if user_name && user_id && minutes_tracked
+      if !userMap.has_key? user_name
+        userMap[user_name] = minutes_tracked
+      elsif
+        userMap.has_key? user_name
+        userMap[user_name] += minutes_tracked
+      end
     end
   end
 
