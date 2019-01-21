@@ -13,7 +13,7 @@ def get_json_url_with_params(url, params)
 end
 # Finally fully working!
 
-def slack_callback(slack_data)
+def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
   return_attatchments = ""
   i = 1
@@ -104,7 +104,7 @@ post "/whostracking" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_callback(slack_data)
+    slack_whos_tracking_callback(slack_data)
   end
   return "one minute, scanning breeze"
 end
