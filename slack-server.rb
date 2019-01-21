@@ -60,14 +60,14 @@ def slack_report_callback(slack_data)
       start_date = 'today'
     when 'yesterday'
       start_date = 'yesterday'
-    when 'last_week'
-      start_date = 'last_week', 'last week'
-    when 'last_month'
-      start_date = 'last_month', 'last month'
-    when 'this_week'
-      start_date = 'this_week', 'this week'
-    when 'this_month'
-      start_date = 'this_month', 'this month'
+    when 'last_week', 'last week'
+      start_date = 'last_week'
+    when 'last_month', 'last month'
+      start_date = 'last_month'
+    when 'this_week', 'this week'
+      start_date = 'this_week'
+    when 'this_month', 'this month'
+      start_date = 'this_month'
     else
       error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `last_month`,`last_week`, `this_week`, `this_month`'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
