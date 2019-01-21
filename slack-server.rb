@@ -48,12 +48,36 @@ def slack_whos_tracking_callback(slack_data)
 end
 
 def slack_report_callback(slack_data)
-
+  # Get all breeze users
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
-
+  # Parsing start date test in slack text
   start_date = slack_data['text'].strip
+  #last_month,last_week, yesterday, today, this_week, this_month .
+  case start_date
+    when 'today'
+      start_date = 'today'
+    when 'yesterday'
+      start_date = 'yesterday'
+    when 'last_week'
+      start_date = 'last_week', 'last week'
+    when 'last_month'
+      start_date = 'last_month', 'last week'
+    when 'this_week'
+      start_date = 'this_week', 'this week'
+    when 'this_month'
+      start_date = 'this_month', 'this month'
+    else
+      error_response = "
+        {
+          'text': 'please include a timeframe after /report, you can use last_month,last_week, yesterday, today, this_week, this_month'
+        }"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+  end
+
+
+
 
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
