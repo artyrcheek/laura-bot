@@ -47,7 +47,7 @@ def slack_callback(slack_data)
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '*Current Tracking Report* from <@#{slack_data['user_id']}>', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
-def slack_yesterdays_report_callback(slack_data)
+def slack_report_callback(slack_data)
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
@@ -114,7 +114,7 @@ post "/report" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_yesterdays_report_callback(slack_data)
+    slack_report_callback(slack_data)
   end
   return "Getting Report data"
 end
