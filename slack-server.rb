@@ -130,10 +130,7 @@ post "/whostracking" do
     begin
       slack_whos_tracking_callback(slack_data)
     rescue
-      error_response = "
-        {
-          'text': 'Sorry, something went wrong before trying to read breeze'
-        }"
+      error_response = "{'text': 'Sorry, something went wrong before trying to read breeze'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
   end
@@ -148,10 +145,7 @@ post "/report" do
     begin
       slack_report_callback(slack_data)
     rescue
-      error_response = "
-        {
-          'text': 'Sorry, something went wrong before trying to scan breeze reports'
-        }"
+      error_response = "{'text': 'Sorry, something went wrong before trying to scan breeze reports'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
   end
