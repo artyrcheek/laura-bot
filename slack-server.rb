@@ -116,3 +116,9 @@ post "/report" do
   end
   return "Getting Report data"
 end
+
+post "/test" do
+  content_type :json
+  status 200
+  return "Getting Report data"
+end
