@@ -118,5 +118,5 @@ post "/report" do
   content_type :json
   status 200
   slack_data = request.POST
-  return "Getting Report data, #{slack_data['text']}"
+  return "Getting Report data, #{slack_data['response_url']}"
 end
