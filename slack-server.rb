@@ -108,7 +108,7 @@ post "/report" do
   content_type :json
   status 200
   slack_data = request.POST
-  Thread.new doß
+  Thread.new do
     slack_yesterdays_report_callback(slack_data)
   end
   return "Getting Report data"
