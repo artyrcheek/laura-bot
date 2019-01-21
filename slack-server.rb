@@ -88,7 +88,7 @@ def slack_yesterdays_report_callback(slack_data)
   time_tracking_report_body = "
     {
       'response_type':'in_channel',
-      'text': '*Time Tracking Report For Yesterday* \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
+      'text': '*Time Tracking Report For Yesterday* from #{slack_data['user_name']} \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }"
   HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
