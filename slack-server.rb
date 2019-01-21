@@ -74,7 +74,7 @@ def slack_report_callback(slack_data)
           'text': 'please include a timeframe after /report, you can use last_month,last_week, yesterday, today, this_week, this_month'
         }"
       HTTParty.post(slack_data['response_url'], body: error_response)
-      abort("invalid timeframe")
+      break
   end
 
 
