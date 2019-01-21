@@ -71,7 +71,7 @@ def slack_report_callback(slack_data)
     else
       error_response = "{'text': 'please include a timeframe after /report, you can use last_month,last_week, yesterday, today, this_week, this_month'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
-      break
+      return
   end
 
 
