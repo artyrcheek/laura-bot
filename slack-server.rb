@@ -110,7 +110,7 @@ post "/whostracking" do
     rescue
       error_response = "
         {
-          'text': 'Sorry, something went wrong'
+          'text': 'Sorry, something went wrong before trying to read breeze'
         }"
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
@@ -128,7 +128,7 @@ post "/report" do
     rescue
       error_response = "
         {
-          'text': 'Sorry, something went wrong'
+          'text': 'Sorry, something went wrong before trying to scan breeze reports'
         }"
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
