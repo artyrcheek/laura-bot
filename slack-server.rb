@@ -113,3 +113,10 @@ post "/yesterdaysreport" do
   end
   return "Getting Report data"
 end
+
+post "/yesterdaysreport" do
+  content_type :json
+  status 200
+  slack_data = request.POST
+  return "Getting Report data, #{slack_data['text']}"
+end
