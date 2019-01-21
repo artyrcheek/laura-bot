@@ -52,7 +52,7 @@ def slack_yesterdays_report_callback(slack_data)
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
 
-  start_date = slack_data['text']
+  start_date = slack_data['text'].strip
 
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
