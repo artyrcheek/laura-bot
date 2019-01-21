@@ -114,7 +114,7 @@ post "/yesterdaysreport" do
   return "Getting Report data"
 end
 
-post "/yesterdaysreport" do
+post "/report" do
   content_type :json
   status 200
   slack_data = request.POST
