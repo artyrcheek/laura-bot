@@ -59,21 +59,17 @@ def slack_yesterdays_report_callback(slack_data)
     body: {"report_type" => "timetracking", "start_date" => start_date }
   )
 
-  pp reports_response
-
   userMap = {}
 
   reports_response.each do |report|
     user_id = report['user_id']
     user_name = usersResponse.find do |user| user['id'] == user_id end['name']
     minutes_tracked = report['tracked']
-    if user_name && user_id && minutes_tracked
-      if !userMap.has_key? user_name
-        userMap[user_name] = minutes_tracked
-      elsif
-        userMap.has_key? user_name
-        userMap[user_name] += minutes_tracked
-      end
+    if !userMap.has_key? user_name
+      userMap[user_name] = minutes_tracked
+    elsif
+      userMap.has_key? user_name
+      userMap[user_name] += minutes_tracked
     end
   end
 
@@ -118,11 +114,5 @@ post "/report" do
   Thread.new do
     slack_yesterdays_report_callback(slack_data)
   end
-  return "Getting Report data"
-end
-
-post "/test" do
-  content_type :json
-  status 200
   return "Getting Report data"
 end
