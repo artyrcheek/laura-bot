@@ -105,7 +105,15 @@ post "/whostracking" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_whos_tracking_callback(slack_data)
+    begin
+      slack_whos_tracking_callback(slack_data)
+    rescue
+      error_response = "
+        {
+          'text': 'Sorry, something went wrong'
+        }"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+    end
   end
   return "one minute, scanning breeze"
 end
