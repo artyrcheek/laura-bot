@@ -63,7 +63,7 @@ def slack_report_callback(slack_data)
     when 'last_week'
       start_date = 'last_week', 'last week'
     when 'last_month'
-      start_date = 'last_month', 'last week'
+      start_date = 'last_month', 'last month'
     when 'this_week'
       start_date = 'this_week', 'this week'
     when 'this_month'
