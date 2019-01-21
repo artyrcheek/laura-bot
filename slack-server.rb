@@ -114,7 +114,15 @@ post "/report" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_report_callback(slack_data)
+    begin
+      slack_report_callback(slack_data)
+    rescue
+      error_response = "
+        {
+          'text': 'Sorry, something went wrong'
+        }"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+    end
   end
   return "Getting Report data"
 end
