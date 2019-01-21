@@ -59,17 +59,21 @@ def slack_yesterdays_report_callback(slack_data)
     body: {"report_type" => "timetracking", "start_date" => start_date }
   )
 
+  pp reports_response
+
   userMap = {}
 
   reports_response.each do |report|
     user_id = report['user_id']
     user_name = usersResponse.find do |user| user['id'] == user_id end['name']
     minutes_tracked = report['tracked']
-    if !userMap.has_key? user_name
-      userMap[user_name] = minutes_tracked
-    elsif
-      userMap.has_key? user_name
-      userMap[user_name] += minutes_tracked
+    if user_name && user_id && minutes_tracked
+      if !userMap.has_key? user_name
+        userMap[user_name] = minutes_tracked
+      elsif
+        userMap.has_key? user_name
+        userMap[user_name] += minutes_tracked
+      end
     end
   end
 
@@ -94,7 +98,7 @@ def slack_yesterdays_report_callback(slack_data)
       'text': '*Time Tracking Report For #{start_date}* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }"
-  HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
+  # HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
 end
 
 post "/whostracking" do
