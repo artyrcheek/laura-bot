@@ -98,7 +98,7 @@ def slack_yesterdays_report_callback(slack_data)
       'text': '*Time Tracking Report For #{start_date}* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }"
-  # HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
+  HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
 end
 
 post "/whostracking" do
