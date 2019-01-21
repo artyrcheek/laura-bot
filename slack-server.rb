@@ -1,4 +1,4 @@
-require 'net/http'
+slack_whos_tracking_callbackrequire 'net/http'
 require 'json'
 require 'slack-ruby-client'
 require 'sinatra'
@@ -13,7 +13,7 @@ def get_json_url_with_params(url, params)
 end
 # Finally fully working!
 
-def slack_callback(slack_data)
+def slack_whos_tracking_callback(slack_data)
   puts "callback triggered! :)"
   return_attatchments = ""
   i = 1
@@ -47,7 +47,7 @@ def slack_callback(slack_data)
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '*Current Tracking Report* from <@#{slack_data['user_id']}>', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
-def slack_yesterdays_report_callback(slack_data)
+def slack_report_callback(slack_data)
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
@@ -114,7 +114,7 @@ post "/report" do
   status 200
   slack_data = request.POST
   Thread.new do
-    slack_yesterdays_report_callback(slack_data)
+    slack_report_callback(slack_data)
   end
   return "Getting Report data"
 end
