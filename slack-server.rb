@@ -51,9 +51,12 @@ def slack_yesterdays_report_callback(slack_data)
   usersResponse = HTTParty.get(
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
+
+  start_date = slack_data['text']
+
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
-    body: {"report_type" => "timetracking", "start_date" => slack_data['text'] }
+    body: {"report_type" => "timetracking", "start_date" => start_date }
   )
 
   userMap = {}
