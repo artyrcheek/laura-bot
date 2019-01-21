@@ -120,3 +120,10 @@ post "/report" do
   slack_data = request.POST
   return "Getting Report data, #{slack_data['text']}, #{slack_data['user_name']}, <@#{slack_data['user_id']}>"
 end
+
+post "/report-button-replier" do
+  content_type :json
+  status 200
+  slack_data = request.POST
+  return "We have got a button click"
+end
