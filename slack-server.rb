@@ -56,6 +56,7 @@ def better_slack_whos_tracking_callback(slack_data)
   reports_response.each do | entry |
     if entry['tracked'] == nil
       card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
+      project = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
 
       return_attatchments << "{
         'color': '#36a64f',
@@ -63,11 +64,8 @@ def better_slack_whos_tracking_callback(slack_data)
         'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
         'title': '#{card['name']}',
         'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
-        'text': '#{card['project']['name']}'
+        'text': '#{project['name']}'
       },"
-
-      puts entry
-      puts card
     end
   end
 
@@ -103,9 +101,6 @@ def slack_report_callback(slack_data)
       HTTParty.post(slack_data['response_url'], body: error_response)
       return
   end
-
-
-
 
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
@@ -159,8 +154,8 @@ post "/whostracking" do
   Thread.new do
     begin
       better_slack_whos_tracking_callback(slack_data)
-    rescue
-      error_response = "{'text': 'Sorry, something went wrong before trying to read breeze'}"
+    rescue => error
+      error_response = "{'text': 'Sorry, something went wrong before trying to read breeze #{error}'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
   end
