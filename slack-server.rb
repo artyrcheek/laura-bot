@@ -51,8 +51,10 @@ def slack_report_callback(slack_data)
   case start_date
     when 'today'
       start_date = 'today'
+      datestring = 'today'
     when 'yesterday'
       start_date = 'yesterday'
+      datestring = 'yesterday'
     when 'help'
       error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
@@ -67,11 +69,13 @@ def slack_report_callback(slack_data)
 
       start_date = last_business_day
       end_date = last_business_day
+      datestring = 'last workday'
+
   end
 
   reports_response = HTTParty.post(
     "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
-    body: {"report_type" => "timetracking", "start_date" => start_date }
+    body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
   )
 
   userMap = {}
@@ -108,7 +112,7 @@ def slack_report_callback(slack_data)
   time_tracking_report_body = "
     {
       'response_type':'in_channel',
-      'text': '*Time Tracking Report For #{start_date.titleize }* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
+      'text': '*Time Tracking Report For #{datestring.titleize }* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }"
   HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
