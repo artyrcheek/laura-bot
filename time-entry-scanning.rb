@@ -14,14 +14,3 @@ def skip_weekends(date, inc = 1)
   end
   date
 end
-
-def last_business_day
-  date = DateTime.now
-  date -= 1
-  while date.wday == 0 || date.wday == 6
-    date += inc
-  end
-  date
-end
-
-puts last_business_day.strftime("%Y-%m-%d")
