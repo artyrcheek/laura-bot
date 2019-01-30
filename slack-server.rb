@@ -47,6 +47,36 @@ def slack_whos_tracking_callback(slack_data)
   HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '*Current Tracking Report* from <@#{slack_data['user_id']}>', 'attachments': [#{ return_attatchments[0..-1] }] }")
 end
 
+def better_slack_whos_tracking_callback(slack_data)
+  return_attatchments = ""
+  reports_response = HTTParty.post(
+    "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
+    body: {"report_type" => "timetracking", "start_date" => "today" }
+  )
+  reports_response.each do | entry |
+    if entry['tracked'] == nil
+      card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
+
+      return_attatchments << "{
+        'color': '#36a64f',
+        'author_name': '#{entry['user_name']}',
+        'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
+        'title': '#{card['name']}',
+        'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
+        'text': '#{card['project']['name']}'
+      },"
+
+      puts entry
+      puts card
+    end
+  end
+
+  if return_attatchments == ""
+    return_attatchments = "{ 'color': 'warning', 'title': 'No one is tracking time!' },"
+  end
+  HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '*Current Tracking Report* from <@#{slack_data['user_id']}>', 'attachments': [#{ return_attatchments[0..-1] }] }")
+end
+
 def slack_report_callback(slack_data)
   # Get all breeze users
   usersResponse = HTTParty.get(
@@ -88,7 +118,7 @@ def slack_report_callback(slack_data)
     user_id = report['user_id']
     user_name = usersResponse.find do |user| user['id'] == user_id end['name']
     minutes_tracked = report['tracked']
-    if user_name && user_id && minutes_tracked
+    if user_name && user_id && minutes_tracked #somethings going wrong here
       if !userMap.has_key? user_name
         userMap[user_name] = minutes_tracked
       elsif
@@ -128,7 +158,7 @@ post "/whostracking" do
   slack_data = request.POST
   Thread.new do
     begin
-      slack_whos_tracking_callback(slack_data)
+      better_slack_whos_tracking_callback(slack_data)
     rescue
       error_response = "{'text': 'Sorry, something went wrong before trying to read breeze'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
