@@ -58,7 +58,6 @@ def slack_report_callback(slack_data)
       HTTParty.post(slack_data['response_url'], body: error_response)
       return
     else
-
       date = DateTime.now
       date -= 1
       while date.wday == 0 || date.wday == 6
