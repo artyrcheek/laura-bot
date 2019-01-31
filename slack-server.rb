@@ -22,11 +22,11 @@ def slack_whos_tracking_callback(slack_data)
     if entry['tracked'] == nil
       card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
       project = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
-
+      better_entry = card['time_entries'].select do |newentry| newentry['id'] == entry['id'] end[0]
       return_attatchments << "{
         'color': '#36a64f',
-        'author_name': '#{entry['user_name']}',
-        'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{entry['user_id']}',
+        'author_name': '#{better_entry['user_name']}',
+        'author_link': 'https://app.breeze.pm/tasks/board?utf8=%E2%9C%93&users%5B%5D=#{better_entry['user_id']}',
         'title': '#{card['name']}',
         'title_link': 'https://app.breeze.pm/cards/#{card['id']}/',
         'text': '#{project['name']}'
