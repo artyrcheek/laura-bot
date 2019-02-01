@@ -4,6 +4,10 @@ require 'slack-ruby-client'
 require 'sinatra'
 require 'httparty'
 
+# Harvest
+PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
+ACCOUNT_ID = ENV["486922"]
+
 def get_json_url_with_params(url, params)
   uri = URI(url)
   uri.query = URI.encode_www_form(params)
@@ -110,9 +114,6 @@ def slack_report_callback(slack_data)
   end
 
   # Harvest
-  PERSONAL_ACCESS_TOKEN = "568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"
-  ACCOUNT_ID = "486922"
-
   uri = URI("https://api.harvestapp.com/v2/users/me")
 
   Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
