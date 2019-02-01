@@ -109,6 +109,26 @@ def slack_report_callback(slack_data)
     position += 1
   end
 
+  # Harvest
+  PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
+  ACCOUNT_ID = ENV["486922"]
+
+  uri = URI("https://api.harvestapp.com/v2/users/me")
+
+  Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
+    request = Net::HTTP::Get.new uri
+    request["User-Agent"] = "Ruby Harvest API"
+    request["Authorization"] = "Bearer #{PERSONAL_ACCESS_TOKEN}"
+    request["Harvest-Account-ID"] = ACCOUNT_ID
+
+    response = http.request request
+    json_response = JSON.parse(response.body)
+
+    puts JSON.pretty_generate(json_response)
+  end
+
+  # End Harvest
+
   time_tracking_report_body = "
     {
       'response_type':'in_channel',
