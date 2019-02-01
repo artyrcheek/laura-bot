@@ -110,8 +110,8 @@ def slack_report_callback(slack_data)
   end
 
   # Harvest
-  PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
-  ACCOUNT_ID = ENV["486922"]
+  PERSONAL_ACCESS_TOKEN = "568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"
+  ACCOUNT_ID = "486922"
 
   uri = URI("https://api.harvestapp.com/v2/users/me")
 
