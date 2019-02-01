@@ -114,6 +114,8 @@ def slack_report_callback(slack_data)
   end
 
   # Harvest
+  puts "Harvest Test"
+
   uri = URI("https://api.harvestapp.com/v2/users/me")
 
   Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
