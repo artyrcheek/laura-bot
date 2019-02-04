@@ -159,6 +159,7 @@ post "/whostracking" do
 end
 
 post "/report" do
+  puts "/report requested"
   content_type :json
   status 200
   slack_data = request.POST
