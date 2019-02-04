@@ -71,6 +71,8 @@ def slack_report_callback(slack_data)
       end
       last_business_day = date.strftime("%Y-%m-%d")
 
+      puts last_business_day
+
       start_date = last_business_day
       end_date = last_business_day
       datestring = 'last workday'
