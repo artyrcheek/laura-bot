@@ -46,31 +46,37 @@ def slack_report_callback(slack_data)
     "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
   )
   # Parsing start date test in slack text
-  start_date = slack_data['text'].strip
-  #last_month,last_week, yesterday, today, this_week, this_month .
-  case start_date
-    when 'today'
-      start_date = 'today'
-      datestring = 'today'
-    when 'yesterday'
-      start_date = 'yesterday'
-      datestring = 'yesterday'
-    when 'help'
-      error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
-      HTTParty.post(slack_data['response_url'], body: error_response)
-      return
-    else
-      date = DateTime.now
-      date -= 1
-      while date.wday == 0 || date.wday == 6
-        date += inc
-      end
-      last_business_day = date.strftime("%Y-%m-%d")
+  slack_text = slack_data['text'].strip
 
-      start_date = last_business_day
-      end_date = last_business_day
-      datestring = 'last workday'
+  if slack_text.include? "detailed"
+    detailed_mode = true
+  else
+    detailed_mode = false
+  end
 
+  #last_month,last_week, yesterday, today, this_week, this_month.
+
+  if slack_text.include? "today"
+    start_date = 'today'
+    datestring = 'today'
+  elsif slack_text.include? "yesterday"
+    start_date = 'yesterday'
+    datestring = 'yesterday'
+  elsif slack_text.include? "help"
+    error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
+    HTTParty.post(slack_data['response_url'], body: error_response)
+    return
+  else
+    date = DateTime.now
+    date -= 1
+    while date.wday == 0 || date.wday == 6
+      date += inc
+    end
+    last_business_day = date.strftime("%Y-%m-%d")
+
+    start_date = last_business_day
+    end_date = last_business_day
+    datestring = 'last workday'
   end
 
   reports_response = HTTParty.post(
