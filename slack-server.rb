@@ -143,15 +143,15 @@ def slack_report_callback(slack_data)
       return_attatchments << "
         {
           'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
-          'author_name': '#{user}',
-          'title': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes',
+          'title': '#{user}',
+          'pretext': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes',
           'text': '#{projectTimeString}'
         },"
     else
       return_attatchments << "
         {
           'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
-          'author_name': '#{user}',
+          'title': '#{user}',
           'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
         },"
     end
