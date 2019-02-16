@@ -148,7 +148,7 @@ def slack_report_callback(slack_data)
         {
           'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
           'title': '#{user}',
-          'text': 'Total Time Tracked: *#{time_tracked/60} Hours #{time_tracked % 60} Minutes*\nProjects:',
+          'text': 'Total Time Tracked: *#{time_tracked/60} Hours #{time_tracked % 60} Minutes*\n ',
           'fields': [#{projectTimeFields[0..-1]}]
         },"
     else
