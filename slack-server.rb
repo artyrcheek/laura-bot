@@ -140,15 +140,15 @@ def slack_report_callback(slack_data)
       userProjectMap[user].each do |project_name, time_for_project|
         projectTimeFields << "{
           'title': '#{project_name}',
-          'value': '*#{time_for_project/60} Hours #{time_for_project % 60} Minutes',
+          'value': '#{time_for_project/60} Hours #{time_for_project % 60} Minutes',
           'short': false
         },"
       end
       return_attatchments << "
         {
           'color': '#{ if time_tracked <= 300 then "danger" elsif time_tracked <= 390 then "warning" else "good" end}',
-          'author_name': '#{user}',
-          'title': 'Total Time Tracked: #{time_tracked/60} Hours #{time_tracked % 60} Minutes',
+          'title': '#{user}',
+          'text': 'Total Time Tracked: #{time_tracked/60} Hours #{time_tracked % 60} Minutes',
           'fields': [#{projectTimeFields[0..-1]}]
         },"
     else
