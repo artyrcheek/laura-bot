@@ -3,4 +3,5 @@ source 'https://rubygems.org' do
   gem 'async-websocket'
   gem 'sinatra'
   gem 'httparty'
+  gem 'whenever'
 end

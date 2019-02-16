@@ -61,6 +61,12 @@ def slack_report_callback(slack_data)
   elsif slack_text.include? "yesterday"
     start_date = 'yesterday'
     datestring = 'yesterday'
+  elsif slack_text.include? "this_week"
+    start_date = 'this_week'
+    datestring = 'this week'
+  elsif slack_text.include? "this_month"
+    start_date = 'this_month'
+    datestring = 'this month'
   elsif slack_text.include? "help"
     error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
     HTTParty.post(slack_data['response_url'], body: error_response)
