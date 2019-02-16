@@ -150,7 +150,7 @@ def slack_report_callback(slack_data)
           timeString = "#{time_for_project % 60} Minutes"
         end
         projectTimeFields << "{
-          'title': '#{project_name}',
+          'title': '#{if project_name!= "" then project_name else "Project Name Empty" end}',
           'value': '#{timeString}',
           'short': false
         },"
