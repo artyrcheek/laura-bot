@@ -140,7 +140,7 @@ def slack_report_callback(slack_data)
       userProjectMap[user].each do |project_name, time_for_project|
         projectTimeFields << "{
           'title': '#{project_name}',
-          'value': '#{time_for_project/60}H #{time_for_project % 60}M',
+          'value': '#{time_for_project/60} Hours #{time_for_project % 60} Minutes',
           'short': false
         },"
       end
