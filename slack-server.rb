@@ -45,10 +45,6 @@ def slack_whos_tracking_callback(slack_data)
 end
 
 def slack_report_callback(slack_data)
-  # Get all breeze users
-  usersResponse = HTTParty.get(
-    "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
-  )
   # Parsing start date test in slack text
   slack_text = slack_data['text'].strip
 
@@ -59,7 +55,6 @@ def slack_report_callback(slack_data)
   end
 
   #last_month,last_week, yesterday, today, this_week, this_month.
-
   if slack_text.include? "today"
     start_date = 'today'
     datestring = 'today'
@@ -89,17 +84,48 @@ def slack_report_callback(slack_data)
   )
 
   userMap = {}
+  if detailed_mode
+    userProjectMap = {}
+  end
+
+  # Get all breeze users
+  usersResponse = HTTParty.get(
+    "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
+  )
 
   reports_response.each do |report|
     user_id = report['user_id']
     user_name = usersResponse.find do |user| user['id'] == user_id end['name']
     minutes_tracked = report['tracked']
     if user_name && user_id && minutes_tracked #somethings going wrong here
-      if !userMap.has_key? user_name
-        userMap[user_name] = minutes_tracked
-      elsif
-        userMap.has_key? user_name
-        userMap[user_name] += minutes_tracked
+      if detailed_mode
+        # add project => Time Map to userProjectMap[user_name] and add time to userMap[user_name]
+        project = HTTParty.get("https://api.breeze.pm/projects/#{report["project_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
+        project_name = project["name"]
+
+        #Make empty hash for user if doesnt exist
+        if userProjectMap[user_name] == nil
+          userProjectMap[user_name] = {}
+        end
+        #Populate hash if does exist
+        if userProjectMap[user_name][project_name] == nil
+          userProjectMap[user_name][project_name] = minutes_tracked
+        elsif userProjectMap[user_name][project_name] != nil
+          userProjectMap[user_name][project_name] += minutes_tracked
+        end
+        # add time to userMap[user_name]
+        if userMap[user_name] == nil
+          userMap[user_name] = minutes_tracked
+        elsif userMap[user_name] != nil
+          userMap[user_name] += minutes_tracked
+        end
+      else
+        # just add time to userMap[user_name]
+        if userMap[user_name] == nil
+          userMap[user_name] = minutes_tracked
+        elsif userMap[user_name] != nil
+          userMap[user_name] += minutes_tracked
+        end
       end
     end
   end
