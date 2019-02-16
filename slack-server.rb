@@ -141,7 +141,7 @@ def slack_report_callback(slack_data)
   time_tracking_report_body = "
     {
       'response_type':'in_channel',
-      'text': '*Time Tracking Report For #{datestring.titleize }* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
+      'text': '*Time #{if detailed_mode then "Detailed" end} Tracking Report For #{datestring.titleize }* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
       'attachments': [#{ return_attatchments[0..-1] }]
     }"
   HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
