@@ -138,7 +138,7 @@ def slack_report_callback(slack_data)
     if detailed_mode
       projectTimeString = ""
       userProjectMap[user].each do |project_name, time_for_project|
-        projectTimeString << "#{project_name} - #{time_tracked/60} Hours #{time_tracked % 60} Minutes\n"
+        projectTimeString << "#{project_name} - #{time_for_project/60} Hours #{time_for_project % 60} Minutes\n"
       end
       return_attatchments << "
         {
