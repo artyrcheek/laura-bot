@@ -30,6 +30,10 @@ module ProjectReport
     elsif slack_text.include? "last_month"
       start_date = 'last_month'
       datestring = 'last month'
+    elsif slack_text.include? "help"
+      error_response = "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+      return
     else
       start_date = 'last_week'
       datestring = 'last week'

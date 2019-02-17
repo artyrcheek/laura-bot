@@ -27,8 +27,14 @@ module Report
     elsif slack_text.include? "this_month"
       start_date = 'this_month'
       datestring = 'this month'
+    elsif slack_text.include? "last_week"
+      start_date = 'last_week'
+      datestring = 'last week'
+    elsif slack_text.include? "last_month"
+      start_date = 'last_month'
+      datestring = 'last month'
     elsif slack_text.include? "help"
-      error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
+      error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
       return
     else
