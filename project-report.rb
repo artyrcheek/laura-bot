@@ -9,7 +9,16 @@ require 'httparty'
 API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
 
 module ProjectReport
-
+  def self.get_last_workdate_string
+    inc = -1
+    date = DateTime.now
+    date -= 1
+    while date.wday == 0 || date.wday == 6
+      date += inc
+    end
+    last_business_day = date.strftime("%Y-%m-%d")
+    last_business_day
+  end
   def self.parse_slack_text(slack_data)
     # Parsing start date test in slack text
     slack_text = slack_data['text'].strip
@@ -34,12 +43,16 @@ module ProjectReport
       start_date = 'last_month'
       datestring = 'last month'
     else
-      start_date = 'last_week'
-      datestring = 'last week'
+      last_business_day = Report.get_last_workdate_string
+
+      start_date = last_business_day
+      end_date = last_business_day
+      datestring = 'last workday'
     end
 
     slack_text_return_data = {
       "start_date" => start_date,
+      "end_date" => end_date,
       "datestring" => datestring
     }
 
@@ -54,7 +67,7 @@ module ProjectReport
 
     reports_response = HTTParty.post(
       "https://api.breeze.pm/reports?api_token=#{API_TOKEN}",
-      body: {"report_type" => "timetracking", "start_date" => start_date}
+      body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
     )
     return reports_response, datestring
   end
