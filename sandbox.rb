@@ -7,5 +7,6 @@ require 'slack-ruby-client'
 require 'httparty'
 
 require "./project-report"
+require "./report"
 
-ProjectReportCallback.slack_reply({"text" => "empty", "user_id" => "arty", "response_url" => "nothing" })
+ReportCallback.slack_reply({"text" => "empty", "user_id" => "arty", "response_url" => "nothing" })

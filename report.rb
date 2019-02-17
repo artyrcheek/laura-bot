@@ -30,6 +30,7 @@ module ReportCallback
       HTTParty.post(slack_data['response_url'], body: error_response)
       return
     else
+      inc = -1
       date = DateTime.now
       date -= 1
       while date.wday == 0 || date.wday == 6
