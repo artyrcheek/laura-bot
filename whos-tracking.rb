@@ -1,12 +1,12 @@
 module WhosTracking
-
-end
-module WhosTrackingCallback
-  def self.slack_reply(slack_data)
+  def self.get_reports_response
     reports_response = HTTParty.post(
       "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
       body: {"report_type" => "timetracking", "start_date" => "today" }
     )
+    reports_response
+  end
+  def self.get_return_attatchments(reports_response)
     return_attatchments = ""
     reports_response.each do | entry |
       if entry['tracked'] == nil
@@ -23,10 +23,16 @@ module WhosTrackingCallback
         },"
       end
     end
-
     if return_attatchments == ""
       return_attatchments = "{ 'color': 'warning', 'title': 'No one is tracking time!' },"
     end
+    return_attatchments
+  end
+end
+module WhosTrackingCallback
+  def self.slack_reply(slack_data)
+    reports_response = WhosTracking.get_reports_response
+    return_attatchments = WhosTracking.get_return_attatchments(reports_response)
     HTTParty.post(slack_data['response_url'], body: "{'response_type':'in_channel', 'text': '*Current Tracking Report* from <@#{slack_data['user_id']}>', 'attachments': [#{ return_attatchments[0..-1] }] }")
   end
 end
