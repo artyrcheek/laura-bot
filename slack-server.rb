@@ -6,6 +6,7 @@ require 'httparty'
 
 require "./project-report"
 require "./whos-tracking"
+require "./report"
 
 # Harvest
 #PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
@@ -192,7 +193,7 @@ post "/report" do
   slack_data = request.POST
   Thread.new do
     begin
-      slack_report_callback(slack_data)
+      ReportCallback.slack_reply(slack_data)
     rescue
       error_response = "{'text': 'Sorry, something went wrong before trying to scan breeze reports'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
