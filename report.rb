@@ -46,30 +46,9 @@ module Report
 
     return slack_text_return_data
   end
-end
-
-module ReportCallback
-  def self.slack_reply(slack_data)
-    # Parsing start date test in slack text
-    slack_text = slack_data['text'].strip
-    slack_text_return_object = Report.parse_slack_text(slack_text)
-
-    start_date, end_date, detailed_mode, datestring = slack_text_return_object["start_date"], slack_text_return_object["end_date"], slack_text_return_object["detailed_mode"], slack_text_return_object["datestring"]
-
-    reports_response = HTTParty.post(
-      "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
-      body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
-    )
-
+  def self.get_user_and_user_project_map(reports_response, users_response, detailed_mode)
     userMap = {}
-    if detailed_mode
-      userProjectMap = {}
-    end
-
-    # Get all breeze users
-    usersResponse = HTTParty.get(
-      "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
-    )
+    if detailed_mode then userProjectMap = {} end
 
     reports_response.each do |report|
       user_id = report['user_id']
@@ -107,6 +86,32 @@ module ReportCallback
         end
       end
     end
+    return_object = {
+      "userMap" => userMap,
+      "userProjectMap" => userProjectMap
+    }
+    return_object
+  end
+end
+
+module ReportCallback
+  def self.slack_reply(slack_data)
+    # Parsing start date test in slack text
+    slack_text = slack_data['text'].strip
+    slack_text_return_object = Report.parse_slack_text(slack_text)
+    start_date, end_date, detailed_mode, datestring = slack_text_return_object["start_date"], slack_text_return_object["end_date"], slack_text_return_object["detailed_mode"], slack_text_return_object["datestring"]
+
+    #Get reports
+    reports_response = HTTParty.post(
+      "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
+      body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
+    )
+    # Get all breeze users
+    usersResponse = HTTParty.get(
+      "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
+    )
+    user_and_user_project_map_data = Report.get_user_and_user_project_map(reports_response, users_response, detailed_mode)
+    userMap, userProjectMap = user_and_user_project_map_data["userMap"], user_and_user_project_map_data["userProjectMap"]
 
     return_attatchments = ""
     userMap = userMap.sort_by{ |k, v| v }.reverse
