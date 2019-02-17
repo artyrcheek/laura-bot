@@ -10,7 +10,10 @@ API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
 
 module ProjectReport
 
-  def self.parse_slack_text(slack_text)
+  def self.parse_slack_text(slack_data)
+    # Parsing start date test in slack text
+    slack_text = slack_data['text'].strip
+
     #last_month,last_week, yesterday, today, this_week, this_month.
     if slack_text.include? "today"
       start_date = 'today'
@@ -48,10 +51,9 @@ module ProjectReport
   end
 
 
-  def self.get_reports_response_and_datestring(slack_text)
-    slack_text_data = self.parse_slack_text(slack_text)
+  def self.get_reports_response_and_datestring(slack_data)
 
-    slack_text_return_object = self.parse_slack_text(slack_text)
+    slack_text_return_object = self.parse_slack_text(slack_data)
     start_date, datestring = slack_text_return_object["start_date"], slack_text_return_object["datestring"]
 
     reports_response = HTTParty.post(
@@ -88,7 +90,7 @@ module ProjectReport
   end
 
   def self.get_name_time_hash_and_datestring(slack_data)
-    reports_response, datestring = self.get_reports_response_and_datestring(slack_data["text"].strip)
+    reports_response, datestring = self.get_reports_response_and_datestring(slack_data)
     id_time_hash = self.parse_reports_to_id_time_hash(reports_response)
     name_time_hash = self.parse_id_time_hash_to_name_time_hash(id_time_hash)
     return name_time_hash, datestring

@@ -11,7 +11,10 @@ module Report
     last_business_day = date.strftime("%Y-%m-%d")
     last_business_day
   end
-  def self.parse_slack_text(slack_text)
+  def self.parse_slack_text(slack_data)
+    # Parsing start date test in slack text
+    slack_text = slack_data['text'].strip
+    
     if slack_text.include? "detailed" then detailed_mode = true else detailed_mode = false end
 
     #last_month,last_week, yesterday, today, this_week, this_month.
@@ -144,9 +147,8 @@ end
 
 module ReportCallback
   def self.slack_reply(slack_data)
-    # Parsing start date test in slack text
-    slack_text = slack_data['text'].strip
-    slack_text_return_object = Report.parse_slack_text(slack_text)
+
+    slack_text_return_object = Report.parse_slack_text(slack_data)
     start_date, end_date, detailed_mode, datestring = slack_text_return_object["start_date"], slack_text_return_object["end_date"], slack_text_return_object["detailed_mode"], slack_text_return_object["datestring"]
 
     #Get reports
