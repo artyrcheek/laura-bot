@@ -24,7 +24,6 @@ post "/whostracking" do
 end
 
 post "/report" do
-  puts "/report requested"
   content_type :json
   status 200
   slack_data = request.POST
@@ -47,7 +46,7 @@ post "/projectreport" do
   status 200
   slack_data = request.POST
   if slack_data["text"].include? "help"
-    return "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+    return "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last week'}"
   end
   Thread.new do
     begin
