@@ -203,7 +203,7 @@ post "/whostracking" do
   slack_data = request.POST
   Thread.new do
     begin
-      WhosTracking.slack_reply(slack_data)
+      WhosTrackingCallback.slack_reply(slack_data)
     rescue
       error_response = "{'text': 'Sorry, something went wrong before trying to read breeze'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
