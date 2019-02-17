@@ -154,14 +154,17 @@ module ReportCallback
     user_and_user_project_map_data = Report.get_user_and_user_project_map(reports_response, users_response, detailed_mode)
     userMap, userProjectMap = user_and_user_project_map_data["userMap"], user_and_user_project_map_data["userProjectMap"]
 
+    #Get return attatchments and total minutes tracked for slack
     return_attatchments, total_minutes_tracked = Report.get_return_attatchments(userMap, userProjectMap, detailed_mode)
 
+    #Make json string to return to slack
     time_tracking_report_body = "
       {
         'response_type':'in_channel',
         'text': '*#{if detailed_mode then "Detailed " end}Time Tracking Report For #{datestring.titleize }* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
         'attachments': [#{ return_attatchments[0..-1] }]
       }"
+    #Send data to slack
     HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
   end
 end

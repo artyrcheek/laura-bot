@@ -67,7 +67,6 @@ module ProjectReportCallback
     project_name_time_hash.each do |project_name, time_tracked|
       return_attatchments << "
         {
-          'color': 'good',
           'title': '#{project_name}',
           'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
         },"
