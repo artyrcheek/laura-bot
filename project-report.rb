@@ -63,7 +63,7 @@ module ProjectReport
   def self.get_reports_response_and_datestring(slack_data)
 
     slack_text_return_object = self.parse_slack_text(slack_data)
-    start_date, datestring = slack_text_return_object["start_date"], slack_text_return_object["datestring"]
+    start_date, end_date, datestring = slack_text_return_object["start_date"], slack_text_return_object["end_date"] slack_text_return_object["datestring"]
 
     reports_response = HTTParty.post(
       "https://api.breeze.pm/reports?api_token=#{API_TOKEN}",
