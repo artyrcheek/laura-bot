@@ -28,7 +28,7 @@ post "/report" do
   status 200
   slack_data = request.POST
   if slack_data["text"].include? "help"
-    return "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+    return "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday also add `detailed` to see what projects each person has worked on'}"
   end
   Thread.new do
     begin
