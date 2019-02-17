@@ -150,6 +150,7 @@ module ReportCallback
     users_response = HTTParty.get(
       "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
     )
+    #Get user => time map and user => { project => time } map
     user_and_user_project_map_data = Report.get_user_and_user_project_map(reports_response, users_response, detailed_mode)
     userMap, userProjectMap = user_and_user_project_map_data["userMap"], user_and_user_project_map_data["userProjectMap"]
 
