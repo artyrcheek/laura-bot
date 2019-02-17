@@ -193,7 +193,7 @@ post "/report" do
   slack_data = request.POST
   Thread.new do
     begin
-      ReportCallback.slack_reply(slack_data)
+      slack_report_callback(slack_data)
     rescue
       error_response = "{'text': 'Sorry, something went wrong before trying to scan breeze reports'}"
       HTTParty.post(slack_data['response_url'], body: error_response)
