@@ -3,8 +3,10 @@ require 'net/http'
 require 'json'
 require 'pp'
 require 'slack-ruby-client'
-
 require 'httparty'
+
+require "./project-report"
+
 
 API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
 

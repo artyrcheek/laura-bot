@@ -5,3 +5,5 @@ require 'pp'
 require 'slack-ruby-client'
 
 require 'httparty'
+
+require "./project-report"
