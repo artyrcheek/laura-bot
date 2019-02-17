@@ -1,6 +1,53 @@
 module Report
+  def self.parse_slack_text(slack_text)
+    if slack_text.include? "detailed"
+      detailed_mode = true
+    else
+      detailed_mode = false
+    end
 
+    #last_month,last_week, yesterday, today, this_week, this_month.
+    if slack_text.include? "today"
+      start_date = 'today'
+      datestring = 'today'
+    elsif slack_text.include? "yesterday"
+      start_date = 'yesterday'
+      datestring = 'yesterday'
+    elsif slack_text.include? "this_week"
+      start_date = 'this_week'
+      datestring = 'this week'
+    elsif slack_text.include? "this_month"
+      start_date = 'this_month'
+      datestring = 'this month'
+    elsif slack_text.include? "help"
+      error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+      return
+    else
+      inc = -1
+      date = DateTime.now
+      date -= 1
+      while date.wday == 0 || date.wday == 6
+        date += inc
+      end
+      last_business_day = date.strftime("%Y-%m-%d")
+
+      start_date = last_business_day
+      end_date = last_business_day
+      datestring = 'last workday'
+    end
+
+    slack_text_return_data = {
+      "detailed_mode" => detailed_mode,
+      "start_date" => start_date,
+      "end_date" => end_date,
+      "datestring" => datestring
+    }
+
+    return slack_text_return_data
+  end
 end
+
 module ReportCallback
   def self.slack_reply(slack_data)
     # Parsing start date test in slack text
@@ -132,25 +179,6 @@ module ReportCallback
       total_minutes_tracked += time_tracked
       position += 1
     end
-
-    # Harvest
-    #puts "Harvest Test"
-
-    #uri = URI("https://api.harvestapp.com/v2/users/me")
-
-    #Net::HTTP.start(uri.host, uri.port, use_ssl: true) do |http|
-    #  request = Net::HTTP::Get.new uri
-    #  request["User-Agent"] = "Ruby Harvest API"
-    #  request["Authorization"] = "Bearer #{PERSONAL_ACCESS_TOKEN}"
-    #  request["Harvest-Account-ID"] = ACCOUNT_ID
-
-    #  response = http.request request
-    #  json_response = JSON.parse(response.body)
-
-    #  puts JSON.pretty_generate(json_response)
-    #end
-
-    # End Harvest
 
     time_tracking_report_body = "
       {

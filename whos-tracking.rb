@@ -3,11 +3,11 @@ module WhosTracking
 end
 module WhosTrackingCallback
   def self.slack_reply(slack_data)
-    return_attatchments = ""
     reports_response = HTTParty.post(
       "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
       body: {"report_type" => "timetracking", "start_date" => "today" }
     )
+    return_attatchments = ""
     reports_response.each do | entry |
       if entry['tracked'] == nil
         card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
