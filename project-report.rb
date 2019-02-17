@@ -97,12 +97,6 @@ end
 module ProjectReportCallback
   def self.slack_reply (slack_data)
 
-    if slack_data["text"].include? "help"
-      error_response = "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
-      HTTParty.post(slack_data['response_url'], body: error_response)
-      return
-    end
-
     # Parsing start date test in slack text
     slack_text = slack_data['text'].strip
 

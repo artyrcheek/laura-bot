@@ -36,6 +36,10 @@ post "/report" do
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
   end
+  if slack_data["text"].include? "help"
+    return "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+    return
+  end
   return "Getting Report data"
 end
 
