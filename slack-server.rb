@@ -5,18 +5,11 @@ require 'sinatra'
 require 'httparty'
 
 require "./project-report"
+require "./whos-tracking"
 
 # Harvest
 #PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
 #ACCOUNT_ID = ENV["486922"]
-
-def get_json_url_with_params(url, params)
-  uri = URI(url)
-  uri.query = URI.encode_www_form(params)
-  res = Net::HTTP.get_response(uri)
-  response_body = res.body.to_s
-  return JSON.parse(response_body)
-end
 
 def slack_whos_tracking_callback(slack_data)
   return_attatchments = ""
@@ -210,7 +203,7 @@ post "/whostracking" do
   slack_data = request.POST
   Thread.new do
     begin
-      slack_whos_tracking_callback(slack_data)
+      WhosTracking.slack_reply(slack_data)
     rescue
       error_response = "{'text': 'Sorry, something went wrong before trying to read breeze'}"
       HTTParty.post(slack_data['response_url'], body: error_response)

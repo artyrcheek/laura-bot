@@ -5,8 +5,6 @@ require 'pp'
 require 'slack-ruby-client'
 require 'httparty'
 
-require "./project-report"
-
 
 API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
 
@@ -79,7 +77,7 @@ module ProjectReportCallback
     time_tracking_report_body = "
       {
         'response_type':'in_channel',
-        'text': '*Project Time Tracking Report For This Week* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
+        'text': '*Project Time Tracking Report For Last Week* from <@#{slack_data['user_id']}> \n Total time tracked: *#{total_minutes_tracked/60} Hours #{total_minutes_tracked % 60} Minutes*',
         'attachments': [#{ return_attatchments[0..-1] }]
       }"
     HTTParty.post(slack_data['response_url'], body: time_tracking_report_body)
