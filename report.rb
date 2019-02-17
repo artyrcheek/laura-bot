@@ -54,10 +54,7 @@ module ReportCallback
     slack_text = slack_data['text'].strip
     slack_text_return_object = Report.parse_slack_text(slack_text)
 
-    start_date = slack_text_return_object["start_date"]
-    end_date = slack_text_return_object["end_date"]
-    detailed_mode = slack_text_return_object["detailed_mode"]
-    datestring = slack_text_return_object["datestring"]
+    start_date, end_date, detailed_mode, datestring = slack_text_return_object["start_date"], slack_text_return_object["end_date"], slack_text_return_object["detailed_mode"], slack_text_return_object["datestring"]
 
     reports_response = HTTParty.post(
       "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
