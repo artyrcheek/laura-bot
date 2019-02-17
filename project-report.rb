@@ -63,7 +63,7 @@ module ProjectReportCallback
     project_name_time_hash = ProjectReport.get_name_time_hash
 
     return_attatchments = ""
-    project_name_time_hash = userMap.sort_by{ |k, v| v }.reverse
+    project_name_time_hash = project_name_time_hash.sort_by{ |k, v| v }.reverse
     total_minutes_tracked = 0
 
     project_name_time_hash.each do |project_name, time_tracked|
