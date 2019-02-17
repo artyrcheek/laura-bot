@@ -2,7 +2,7 @@ module Report
 
 end
 module ReportCallback
-  def self.slack_reply
+  def self.slack_reply(slack_data)
     # Parsing start date test in slack text
     slack_text = slack_data['text'].strip
 
