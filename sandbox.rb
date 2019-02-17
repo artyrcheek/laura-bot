@@ -9,4 +9,4 @@ require 'httparty'
 require "./project-report"
 require "./report"
 
-ReportCallback.slack_reply({"text" => "empty", "user_id" => "arty", "response_url" => "nothing" })
+ProjectReportCallback.slack_reply({"text" => "empty", "user_id" => "arty", "response_url" => "nothing" })
