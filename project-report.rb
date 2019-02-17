@@ -73,6 +73,7 @@ module ProjectReportCallback
           'title': '#{project_name}',
           'text': '#{time_tracked/60} Hours #{time_tracked % 60} Minutes'
         },"
+        total_minutes_tracked += time_tracked
     end
 
     time_tracking_report_body = "
