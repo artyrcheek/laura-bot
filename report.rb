@@ -52,7 +52,7 @@ module Report
 
     reports_response.each do |report|
       user_id = report['user_id']
-      user_name = usersResponse.find do |user| user['id'] == user_id end['name']
+      user_name = users_response.find do |user| user['id'] == user_id end['name']
       minutes_tracked = report['tracked']
       if user_name && user_id && minutes_tracked #somethings going wrong here
         if detailed_mode
@@ -107,7 +107,7 @@ module ReportCallback
       body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
     )
     # Get all breeze users
-    usersResponse = HTTParty.get(
+    users_response = HTTParty.get(
       "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
     )
     user_and_user_project_map_data = Report.get_user_and_user_project_map(reports_response, users_response, detailed_mode)
