@@ -28,6 +28,9 @@ post "/report" do
   content_type :json
   status 200
   slack_data = request.POST
+  if slack_data["text"].include? "help"
+    return "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+  end
   Thread.new do
     begin
       ReportCallback.slack_reply(slack_data)
@@ -36,9 +39,6 @@ post "/report" do
       HTTParty.post(slack_data['response_url'], body: error_response)
     end
   end
-  if slack_data["text"].include? "help"
-    return "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
-  end
   return "Getting Report data"
 end
 
@@ -46,6 +46,9 @@ post "/projectreport" do
   content_type :json
   status 200
   slack_data = request.POST
+  if slack_data["text"].include? "help"
+    return "{'text': 'please include a timeframe after `/projectreport`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
+  end
   Thread.new do
     begin
       ProjectReportCallback.slack_reply(slack_data)

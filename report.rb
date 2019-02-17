@@ -14,7 +14,7 @@ module Report
   def self.parse_slack_text(slack_data)
     # Parsing start date test in slack text
     slack_text = slack_data['text'].strip
-    
+
     if slack_text.include? "detailed" then detailed_mode = true else detailed_mode = false end
 
     #last_month,last_week, yesterday, today, this_week, this_month.
@@ -36,10 +36,6 @@ module Report
     elsif slack_text.include? "last_month"
       start_date = 'last_month'
       datestring = 'last month'
-    elsif slack_text.include? "help"
-      error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, `this_week`, `this_month`, `last_week`, `last_month` or leave blank for the last workday'}"
-      HTTParty.post(slack_data['response_url'], body: error_response)
-      return
     else
       last_business_day = Report.get_last_workdate_string
 
