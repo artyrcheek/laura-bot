@@ -1,3 +1,5 @@
+API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
+
 module Report
   def self.get_last_workdate_string
     inc = -1
@@ -57,7 +59,7 @@ module Report
       if user_name && user_id && minutes_tracked #somethings going wrong here
         if detailed_mode
           # add project => Time Map to userProjectMap[user_name] and add time to userMap[user_name]
-          project = HTTParty.get("https://api.breeze.pm/projects/#{report["project_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
+          project = HTTParty.get("https://api.breeze.pm/projects/#{report["project_id"]}.json?api_token=#{API_TOKEN}",)
           project_name = project["name"]
 
           #Make empty hash for user if doesnt exist
@@ -143,12 +145,12 @@ module ReportCallback
 
     #Get reports
     reports_response = HTTParty.post(
-      "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
+      "https://api.breeze.pm/reports?api_token=#{API_TOKEN}",
       body: {"report_type" => "timetracking", "start_date" => start_date, "end_date" => end_date}
     )
     # Get all breeze users
     users_response = HTTParty.get(
-      "https://api.breeze.pm/users?api_token=B7ULqZ4WueSY-uv-yCZq",
+      "https://api.breeze.pm/users?api_token=#{API_TOKEN}",
     )
     #Get user => time map and user => { project => time } map
     user_and_user_project_map_data = Report.get_user_and_user_project_map(reports_response, users_response, detailed_mode)

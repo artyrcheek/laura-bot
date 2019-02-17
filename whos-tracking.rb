@@ -1,7 +1,9 @@
+API_TOKEN = "B7ULqZ4WueSY-uv-yCZq"
+
 module WhosTracking
   def self.get_reports_response
     reports_response = HTTParty.post(
-      "https://api.breeze.pm/reports?api_token=B7ULqZ4WueSY-uv-yCZq",
+      "https://api.breeze.pm/reports?api_token=#{API_TOKEN}",
       body: {"report_type" => "timetracking", "start_date" => "today" }
     )
     reports_response
@@ -10,8 +12,8 @@ module WhosTracking
     return_attatchments = ""
     reports_response.each do | entry |
       if entry['tracked'] == nil
-        card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
-        project = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}.json?api_token=B7ULqZ4WueSY-uv-yCZq",)
+        card = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}/cards/#{entry["card_id"]}.json?api_token=#{API_TOKEN}",)
+        project = HTTParty.get("https://api.breeze.pm/projects/#{entry["project_id"]}.json?api_token=#{API_TOKEN}",)
         better_entry = card['time_entries'].select do |newentry| newentry['id'] == entry['id'] end[0]
         return_attatchments << "{
           'color': 'good',
