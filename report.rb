@@ -1,4 +1,14 @@
 module Report
+  def self.get_last_workdate_string
+    inc = -1
+    date = DateTime.now
+    date -= 1
+    while date.wday == 0 || date.wday == 6
+      date += inc
+    end
+    last_business_day = date.strftime("%Y-%m-%d")
+    last_business_day
+  end
   def self.parse_slack_text(slack_text)
     if slack_text.include? "detailed" then detailed_mode = true else detailed_mode = false end
 
@@ -20,13 +30,7 @@ module Report
       HTTParty.post(slack_data['response_url'], body: error_response)
       return
     else
-      inc = -1
-      date = DateTime.now
-      date -= 1
-      while date.wday == 0 || date.wday == 6
-        date += inc
-      end
-      last_business_day = date.strftime("%Y-%m-%d")
+      last_business_day = Report.get_last_workdate_string
 
       start_date = last_business_day
       end_date = last_business_day
@@ -48,44 +52,6 @@ module ReportCallback
   def self.slack_reply(slack_data)
     # Parsing start date test in slack text
     slack_text = slack_data['text'].strip
-
-    # if slack_text.include? "detailed"
-    #   detailed_mode = true
-    # else
-    #   detailed_mode = false
-    # end
-    #
-    # #last_month,last_week, yesterday, today, this_week, this_month.
-    # if slack_text.include? "today"
-    #   start_date = 'today'
-    #   datestring = 'today'
-    # elsif slack_text.include? "yesterday"
-    #   start_date = 'yesterday'
-    #   datestring = 'yesterday'
-    # elsif slack_text.include? "this_week"
-    #   start_date = 'this_week'
-    #   datestring = 'this week'
-    # elsif slack_text.include? "this_month"
-    #   start_date = 'this_month'
-    #   datestring = 'this month'
-    # elsif slack_text.include? "help"
-    #   error_response = "{'text': 'please include a timeframe after `/report`, you can use `today`, `yesterday`, or leave blank for the last workday'}"
-    #   HTTParty.post(slack_data['response_url'], body: error_response)
-    #   return
-    # else
-    #   inc = -1
-    #   date = DateTime.now
-    #   date -= 1
-    #   while date.wday == 0 || date.wday == 6
-    #     date += inc
-    #   end
-    #   last_business_day = date.strftime("%Y-%m-%d")
-    #
-    #   start_date = last_business_day
-    #   end_date = last_business_day
-    #   datestring = 'last workday'
-    # end
-
     slack_text_return_object = Report.parse_slack_text(slack_text)
 
     start_date = slack_text_return_object["start_date"]
