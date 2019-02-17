@@ -4,6 +4,8 @@ require 'slack-ruby-client'
 require 'sinatra'
 require 'httparty'
 
+require "./project-report"
+
 # Harvest
 #PERSONAL_ACCESS_TOKEN = ENV["568833.pt.WqVZaB62RnKFoiPrGWZ_63OcI8YT_SZ5ylgCfjLCuaAYRAGy-3IPNgaFEdQjeqpxTC2MOEGFKTgYx-LUG_fDVw"]
 #ACCOUNT_ID = ENV["486922"]
@@ -231,4 +233,19 @@ post "/report" do
     end
   end
   return "Getting Report data"
+end
+
+post "/projectreport" do
+  content_type :json
+  status 200
+  slack_data = request.POST
+  Thread.new do
+    begin
+      ProjectReportCallback.slack_reply(slack_data)
+    rescue
+      error_response = "{'text': 'Sorry, something went wrong before trying to scan breeze project reports'}"
+      HTTParty.post(slack_data['response_url'], body: error_response)
+    end
+  end
+  return "Getting Project Report data"
 end
