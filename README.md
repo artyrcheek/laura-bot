@@ -1,5 +1,5 @@
 # Laura Bot
-Laura Bot is a slack chat bot (named after our project manager Laura) to make it easier to see time tracked on [Breeze](http://breeze.pm) project management tool
+Laura Bot is a slack chat bot (named after our project manager Laura) to make it easier to see time tracked on the [Breeze](http://breeze.pm) project management tool
 ## Commands
 
 ### /whostracking
