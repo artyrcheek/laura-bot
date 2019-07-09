@@ -3,6 +3,7 @@ Laura Bot is a slack chat bot (named after our project manager Laura) to make it
 ## Commands
 
 ### /whostracking
+Shows who is currently tracking time
 ![Whostracking image](https://i.ibb.co/dQHd488/Screenshot-2019-07-09-at-22-46-15.png)
 
 ### /report
